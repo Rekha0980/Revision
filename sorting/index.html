@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #cont {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto;
+            gap: 30px;
+            width: 80%;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <select id="price" onchange="sortprice()">
+        <option value="">Price</option>
+        <option value="asc">low to high</option>
+        <option value="desc">high to low</option>
+    </select>
+    <select id="cat" onchange="catprice()">
+        <option value="">Category</option>
+        <option value="men">men</option>
+        <option value="kids">kids</option>
+        <option value="women">women</option>
+        <option value="homedecor">homedecor</option>
+    </select>
+    <div id="pagination">
+        <div id="prev">prev</div>
+        <span id="page"></span>
+        <div id="next">next</div>
+    </div>
+    <div id="cont"></div>
+</body>
+
+</html>
+<script>
+    //  document.querySelector("#price").addEventListener("change",(event)=>{
+    //     sortprice();
+    //  })
+    async function sortprice() {
+        let price = document.querySelector("#price").value
+        let res = await fetch(`https://dbioz2ek0e.execute-api.ap-south-1.amazonaws.com/mockapi/get-products?sort=price&order=${price}`)
+        let data = await res.json()
+        console.log("sort",data.data);
+        append(data.data)
+    }
+    // document.querySelector("#cat").addEventListener("change",(event)=>{
+    //     catprice();
+    //  })
+    async function catprice() {
+        let cat = document.querySelector("#cat").value
+        let res = await fetch(`https://dbioz2ek0e.execute-api.ap-south-1.amazonaws.com/mockapi/get-products?filter=${cat}`)
+        let data = await res.json()
+        console.log("sort",data.data);
+        append(data.data)
+    }
+
+
+
+    //     document.querySelector("#prev").addEventListener("click",()=>{
+    //     if(page>1){
+    //         page=page-1
+    //         setPage(page)
+    //     }
+    //     else{
+    //         page=1
+    //     }
+    // })
+    // document.querySelector("#next").addEventListener("click",()=>{
+    //     if(page<10){
+    //         page=page+1
+    //         setPage(page)
+    //     }
+    //     else{
+    //         page=1
+    //     }
+    // })
+
+    // const setPage=async(page=1)=>{
+    //  try{
+    //         let res=await fetch(`https://dbioz2ek0e.execute-api.ap-south-1.amazonaws.com/mockapi/get-products?page=${page}&per_page=10&total_pages=${totalPages}`)
+    //         let data=await res.json()
+    //         append(data.data)
+
+    //     }
+    //     catch(err){
+    //         console.log(err)
+    //     }
+    // }
+    const getProducts = async () => {
+        try {
+            let res = await fetch(`https://dbioz2ek0e.execute-api.ap-south-1.amazonaws.com/mockapi/get-products`)
+            let data = await res.json()
+            append(data.data)
+           // console.log(data.data)
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+
+    };
+   
+
+    function append(data) {
+        console.log("hjkhk",data)
+        document.querySelector("#cont").innerText = "";
+        data.map(function (el) {
+            let box = document.createElement("div")
+            box.setAttribute("class", "playbox")
+            let img = document.createElement("img")
+            img.src = el.image
+            let p1 = document.createElement("p")
+            p1.innerText = el.title
+            let p2 = document.createElement("p")
+            p2.innerText = el.price
+            let p3 = document.createElement("p")
+            p3.innerText = el.category
+            box.append(img, p1, p2, p3)
+            document.querySelector("#cont").append(box)
+
+        })
+    }
+    getProducts()
+</script>

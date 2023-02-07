@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #links {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="links">
+        <a href="index.html">AD page</a>
+        <a href="car.html">car page</a>
+        <a href="wristlist">wristlist</a>
+    </div>
+    <div>
+        <form>
+
+            <label>enter km</label><br />
+            <input id="km" type="number" placeholder="enter km" /><br />
+            <label>enetr desc</label><br />
+            <input id="desc" type="text" placeholder="enter description..." /><br />
+            <label>price</label><br />
+            <input id="price" type="number" placeholder="enter price" /><br />
+            <label>Type </label><br />
+            <select id="manual">
+                <option value=""></option>
+                <option value="manual">Manual</option>
+                <option value="automated">Automated</option>
+            </select><br />
+            <label>Brand</label><br />
+            <select id="brand">
+                <option value=""></option>
+                <option value="tata">tata</option>
+                <option value="suzuki">suzuki</option>
+                <option value="hundai">hundai</option>
+            </select><br />
+            <label>year of purchase</label><br />
+            <select id="year">
+                <option value=""></option>
+                <option value="2001">2001</option>
+                <option value="2010">2010</option>
+
+            </select>
+            <br />
+            <input type="submit" />
+        </form>
+    </div>
+
+</body>
+
+</html>
+<script>
+        let arr =JSON.parse(localStorage.getItem("details"))||[];   
+  document.querySelector("form").addEventListener("submit", mydata);
+  function mydata() {
+      event.preventDefault();
+      let alldata={
+            type:document.querySelector("#manual").value,
+       brand:document.querySelector("#brand").value,
+       year:document.querySelector("#year").value,
+       km:document.querySelector("#km").value,
+       desc:document.querySelector("#desc").value,
+       price:document.querySelector("#price").value
+  }
+  arr.push(alldata);
+  //console.log(arr);
+  localStorage.setItem("details",JSON.stringify(arr))
+  
+}
+     
+
+</script>

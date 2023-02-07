@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #players {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto;
+            gap: 30px;
+            width: 80%;
+            margin: auto;
+        }
+
+
+        h1 {
+            text-align: center;
+        }
+
+        #players div {
+            background-color: pink;
+            text-align: center;
+            height: 400px;
+        }
+
+        #players div img {
+            height: 100px;
+            border-radius: 50%;
+            margin-top: 100px;
+        }
+
+        #pagination div {
+            display: inline-block
+        }
+
+        #prev,
+        #next {
+            color: #000;
+            border: 1px solid black;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Player page</h1>
+
+    <div id="pagination">
+        <div id="prev">prev</div>
+        <span id="page"></span>
+        <div id="next">next</div>
+    </div>
+    <div id="search-box">
+        <input id="search" type="search" placeholder="search players" />
+        <button id="search-btn" onclick="handleSearch()">Search</button>
+    </div>
+    <div id="players"></div>
+</body>
+
+</html>
+<script>
+    
+    // ------------------------------------------pagination-------------------------------------------
+    let page = 1
+    let totalPages = 10
+    
+    document.querySelector("#prev").addEventListener("click", () => {
+        console.log("yuio",page)
+        if (page > 1) {
+            page = page - 1
+            setPage(page)
+        }
+        else {
+            page = 1
+        }
+    })
+
+    document.querySelector("#next").addEventListener("click", () => {
+        console.log("jkl",page)
+        if (page < 10) {
+            page = page + 1
+            setPage(page)
+        }
+        else {
+            page = 1
+        }
+    })
+
+    const setPage = async (page = 1) => {
+        document.querySelector("#page").innerText=page
+        try {
+            let res = await fetch(`https://www.balldontlie.io/api/v1/players?page=${page}&per_page=10&total_pages=${totalPages}`)
+            let data = await res.json()
+            append(data.data)
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
+    // -----------------------------------------------------searching----------------------------------------------
+
+    const handleSearch = async () => {
+        let searchvalue = document.querySelector("#search").value;
+        try {
+            let res = await fetch(`https://www.balldontlie.io/api/v1/players?page=${page}&per_page=10&search=${searchvalue}`)
+            let data = await res.json()
+            append(data.data)
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
+    // ---------------------------------------------------showdata-------------------------------------------
+
+    const getPlayers = async () => {
+        document.querySelector("#page").innerText=page
+        try {
+            let res = await fetch(`https://www.balldontlie.io/api/v1/players?page=${page}&per_page=10&total_pages=${totalPages}`)
+            let data = await res.json()
+            append(data.data)
+            //console.log(data)
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+    getPlayers()
+
+    function append(data) {
+          document.querySelector("#players").innerText=""
+        data.map(function (el) {
+           let box = document.createElement("div")
+            box.setAttribute("class", "playbox")
+            let img = document.createElement("img")
+            img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQijG7DrhwuN3-8ccFfUJVOeHA3NojRTA9rECPbCX7wg-NY4KgnDbK_9vZO2c0ARCN3k8Q&usqp=CAU"
+            let p1 = document.createElement("p")
+            p1.innerText = "Name :" + el.first_name + " " + el.last_name
+            let p2 = document.createElement("p")
+            p2.innerText = "Position :" + el.position
+            let btn = document.createElement("button")
+            btn.innerText = "TEAM DETAILS"
+            btn.style.cursor = "pointer"
+            btn.addEventListener("click", () => {
+                showModal(el.team)
+            })
+            btn.setAttribute("class", "btn")
+            box.append(img, p1, p2, btn)
+            document.querySelector("#players").append(box)
+
+        })
+    }
+</script>
