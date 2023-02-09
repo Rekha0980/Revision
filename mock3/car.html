@@ -17,7 +17,7 @@
 
     <div>
         <h3>price</h3>
-        <select onchange="pricesort()"id="sortp"> 
+        <select onchange="pricesort()" id="sortp">
             <option value="">Price</option>
             <option value="lh">Low To High</option>
             <option value="hl">High To Low</option>
@@ -26,7 +26,7 @@
 
     <div>
         <h3>km</h3>
-        <select onchange="kmsort()"id="sortkm"> 
+        <select onchange="kmsort()" id="sortkm">
             <option value="">KM</option>
             <option value="lh">Low To High</option>
             <option value="hl">High To Low</option>
@@ -35,7 +35,7 @@
 
     <div>
         <h3>km</h3>
-        <select onchange="brandsort()"id="sortkm"> 
+        <select onchange="brandsort()" id="sortkm">
             <option value="">brand</option>
             <option value="suzuki">suzuki</option>
             <option value="tata">tata</option>
@@ -43,12 +43,28 @@
     </div>
 
     <div id="cont"></div>
-   
+
 </body>
 
 </html>
 <script>
-    let data = JSON.parse(localStorage.getItem("details")) || []
+
+
+
+    const getData = async () => {
+        try {
+            let res = await fetch("https://render-api-45zo.onrender.com/cars")
+            let data = await res.json()
+            showdata(data)
+            console.log(data)
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
+    getData()
+
 
     function showdata(data) {
         document.querySelector("#cont").innerHTML = null
@@ -64,83 +80,89 @@
             p1.innerText = elem.year + " " + elem.type + " " + elem.brand;
 
             let p2 = document.createElement("p");
-            p2.innerText = elem.price
+            p2.innerText = "Price:" + elem.Price
 
             let p3 = document.createElement("p");
-            p3.innerText = elem.desc;
+            p3.innerText = elem.Description
+                ;
 
-            let p4= document.createElement("p");
-            p4.innerText = elem.km;
-
+            let p4 = document.createElement("p");
+            p4.innerText = "kms:" + elem.kms;
 
             let btn1 = document.createElement("button")
             btn1.innerText = "add"
             btn1.setAttribute("id", "add")
             btn1.addEventListener("click", function () {
-                add(elem,index)
+                add(elem)
             })
             let btn = document.createElement("button")
             btn.innerText = "Remove"
             btn.setAttribute("id", "remove")
             btn.addEventListener("click", function () {
-                remove(elem,index)
+                remove(elem.id)
+                alert("item deleted")
+                // window.location.reload()
             })
 
-            div.append(image, p1, p2, p3,p4,btn1, btn);
+            div.append(image, p1, p2, p3, p4, btn1, btn);
 
             document.querySelector("#cont").append(div);
         });
     }
-
-    showdata(data)
-
-    function remove(el,index) {
-        data.splice(index, 1)
-        localStorage.setItem("details", JSON.stringify(data))
-        showdata(data)
-    }
+//api ka issue hai mere me v auto refresh nahi ho rha tera api use krne pe local pe tera v auto refresh ho rha
 
 
-    function add(el){
-    let arr = JSON.parse(localStorage.getItem("whristlist"))||[];
-    arr.push(el);
-    localStorage.setItem("whristlist",JSON.stringify(arr));
-}
-
-
-let pricesort=()=>{
-    let price = document.querySelector("#sortp").value;
-    let data=JSON.parse(localStorage.getItem("details"));
-    if(price=="lh"){
-        data.sort((a,b)=>{
-            return a.price-b.price;
-        });
-        showdata(data);
-
-    }else if(price=="hl"){
-        data.sort((a,b)=>{
-            return b.price-a.price;
+    function remove(id) {
+        fetch(`https://render-api-45zo.onrender.com/cars/${id}`, {
+            method: "DELETE"
         })
-        showdata(data);
-    }
-}
+            .then(res => res.json())
+            .then(json => console.log(json))
+            .then((res)=>{
+        console.log(res);
+        getData();
+    })
+    .catch((err) => console.log(err.message));
 
-let kmsort=()=>{
-    let km = document.querySelector("#sortkm").value;
-    let data=JSON.parse(localStorage.getItem("details"));
-    if(km=="lh"){
-        data.sort((a,b)=>{
-            return a.km-b.km;
-        });
-        showdata(data);
+        }
 
-    }else if(km=="hl"){
-        data.sort((a,b)=>{
-            return b.km-a.km;
-        })
-        showdata(data);
-    }
-}
+
+
+
+
+// let pricesort=()=>{
+//     let price = document.querySelector("#sortp").value;
+//     let data=JSON.parse(localStorage.getItem("details"));
+//     if(price=="lh"){
+//         data.sort((a,b)=>{
+//             return a.price-b.price;
+//         });
+//         showdata(data);
+
+//     }else if(price=="hl"){
+//         data.sort((a,b)=>{
+//             return b.price-a.price;
+//         })
+//         showdata(data);
+//     }
+// }
+
+// let kmsort=()=>{
+//     let km = document.querySelector("#sortkm").value;
+//     let data=JSON.parse(localStorage.getItem("details"));
+//     if(km=="lh"){
+//         data.sort((a,b)=>{
+//             return a.km-b.km;
+//         });
+//         showdata(data);
+
+//     }else if(km=="hl"){
+//         data.sort((a,b)=>{
+//             return b.km-a.km;
+//         })
+//         showdata(data);
+//     }
+// }
 
 
 

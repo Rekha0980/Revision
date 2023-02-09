@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #cont div img {
+            height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>
+        <h3>price</h3>
+        <select onchange="sortprice()"id="price"> 
+            <option value="">Price</option>
+            <option value="asc">Low To High</option>
+            <option value="desc">High To Low</option>
+        </select>
+    </div>
+
+    <div>
+        <h3>km</h3>
+        <select onchange="sortkm()"id="sortkm"> 
+            <option value="">KM</option>
+            <option value="asc">Low To High</option>
+            <option value="desc">High To Low</option>
+        </select>
+    </div>
+
+    <div>
+        <h3>brand</h3>
+        <select id="brand" onchange="brandfilter()">
+            <option value=""></option>
+            <option value="Tata">tata</option>
+            <option value="Suzuki">suzuki</option>
+            <option value="Maruti Swift">hundai</option>
+        </select>
+    </div>
+
+    <div id="cont"></div>
+   
+</body>
+
+</html>
+<script>
+
+function getCar() {
+    fetch(`https://render-api-45zo.onrender.com/cars`)
+        .then((res) => res.json())
+        .then((res) => {
+            console.log(res)
+            showdata(res);
+        })
+        .catch((err) => console.log(err.message));
+}
+    
+getCar()
+    function showdata(data) {
+        document.querySelector("#cont").innerHTML = null
+
+        data.map(function (elem) {
+
+            let div = document.createElement("div");
+
+            let image = document.createElement("img")
+            image.src = "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8Y2Fyc3xlbnwwfHwwfHw%3D&w=1000&q=80"
+
+            let p1 = document.createElement("p");
+            p1.innerText = elem.year + " " + elem.type + " " + elem.brand;
+
+            let p2 = document.createElement("p");
+            p2.innerText = "Price"+elem.Price
+
+            let p3 = document.createElement("p");
+            p3.innerText = elem. Description;
+
+            let p4= document.createElement("p");
+            p4.innerText ="kms" +elem.kms;
+
+
+            let btn1 = document.createElement("button")
+            btn1.innerText = "add"
+            btn1.setAttribute("id", "add")
+            btn1.addEventListener("click", function () {
+                addwrist(elem)
+                alert("Your data added to wishlist successfully");
+            })
+            let btn = document.createElement("button")
+            btn.innerText = "Remove"
+            btn.setAttribute("id", "remove")
+            btn.addEventListener("click", function () {
+                remove(elem.id)
+                alert("Data is deleted successfully");
+            })
+
+            div.append(image, p1, p2, p3,p4,btn1, btn);
+
+            document.querySelector("#cont").append(div);
+        });
+    }
+
+// --------------------------------delete-----------------------------------------
+    function remove(id) {
+        fetch(`https://render-api-45zo.onrender.com/cars/${id}`,{
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        }, 
+    })
+    .then((res)=>res.json())
+    .then((res)=>{
+        console.log(res);
+        getCar();
+    })
+    .catch((err) => console.log(err.message));
+    }
+// ------------------------------------------addwrist---------------------------------------------------------
+function addwrist(data){
+    fetch(`https://render-api-45zo.onrender.com/wishlisted_cars`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+        .then((res) => res.json())
+        .then((res) => {
+            console.log("data posted",res)
+        })
+        .catch((err)=>console.log(err.message));
+
+
+
+}
+// --------------------------------------------sortprice--------------------------------------------
+    async function sortprice() {
+        let price = document.querySelector("#price").value
+        let res = await fetch(`https://render-api-45zo.onrender.com/cars?_sort=Price&_order=${price}`)
+        let data = await res.json()
+        showdata(data)
+    }
+
+
+// ----------------------------------------------sortkm--------------------------------------
+    async function sortkm() {
+        let km = document.querySelector("#sortkm").value
+        let res = await fetch(`https://render-api-45zo.onrender.com/cars?_sort=kms&_order=${km}`)
+        let data = await res.json()
+        showdata(data)
+    }
+
+
+
+    // -------------------------------------filter------------------------------------------------
+function brandfilter(){
+    let brand = document.querySelector("#brand").value
+    if (brand === "") {
+       getCar();
+    }
+    else{
+        fetch(
+            `https://render-api-45zo.onrender.com/cars?brand=${brand}`
+        )
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res);
+                showdata(res);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    }
+}
+
+
+//     function add(el){
+//     let arr = JSON.parse(localStorage.getItem("whristlist"))||[];
+//     arr.push(el);
+//     localStorage.setItem("whristlist",JSON.stringify(arr));
+// }
+
+
+// let pricesort=()=>{
+//     let price = document.querySelector("#sortp").value;
+//     let data=JSON.parse(localStorage.getItem("details"));
+//     if(price=="lh"){
+//         data.sort((a,b)=>{
+//             return a.price-b.price;
+//         });
+//         showdata(data);
+
+//     }else if(price=="hl"){
+//         data.sort((a,b)=>{
+//             return b.price-a.price;
+//         })
+//         showdata(data);
+//     }
+// }
+
+// let kmsort=()=>{
+//     let km = document.querySelector("#sortkm").value;
+//     let data=JSON.parse(localStorage.getItem("details"));
+//     if(km=="lh"){
+//         data.sort((a,b)=>{
+//             return a.km-b.km;
+//         });
+//         showdata(data);
+
+//     }else if(km=="hl"){
+//         data.sort((a,b)=>{
+//             return b.km-a.km;
+//         })
+//         showdata(data);
+//     }
+// }
+
+
+
+</script>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masai carWale</title>
+    <link rel="stylesheet" href="./styles/index.css"/>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Ad page</a>
+        <a href="cars.html">Cars Page</a>
+        <a href="wishlist.html">Wishlist page</a>
+    </nav>
+    <div>
+        <h1 id="text-ad">Ad page</h1>
+        <div>
+            <form id="formSubmit" onsubmit="handleCarForm()">
+               <select id="selectBrand">
+                  <option value="--">Select brand</option>
+                  <option value="Tata">Tata</option>
+                  <option value="Maruti Swift">Maruti Swift</option>
+                  <option value="Suzuki">Suzuki</option>
+               </select>
+               <select id="selectType">
+                <option value="--">Select type</option>
+                <option value="Manual">Manual</option>
+                <option value="AMT">Automated(AMT)</option>
+             </select>
+             <select id="selectYear">
+                <option value="--">Select year of purchase</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+             </select>
+             <input type="number" placeholder="Enter KM" id="km"/>
+             <input type="text" placeholder="Enter description" id="description"/>
+             <input type="number" placeholder="Enter price" id="price"/>
+             <input type="submit" value="Submit" />
+            </form>
+        </div>
+    </div>
+</body>
+<script src="./scripts/index.js"></script>
+</html>

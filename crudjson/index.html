@@ -37,9 +37,9 @@
             <label>Brand</label><br />
             <select id="brand">
                 <option value=""></option>
-                <option value="tata">tata</option>
-                <option value="suzuki">suzuki</option>
-                <option value="hundai">hundai</option>
+                <option value="Tata">tata</option>
+                <option value="Suzuki">suzuki</option>
+                <option value="Maruti Swift">hundai</option>
             </select><br />
             <label>year of purchase</label><br />
             <select id="year">
@@ -57,33 +57,32 @@
 
 </html>
 <script>
-
-
-    function myData() {
-        event.preventDefault();
-
-        let obj={
-            type: document.querySelector("#manual").value,
-                brand: document.querySelector("#brand").value,
-                year: document.querySelector("#year").value,
-                kms: document.querySelector("#km").value,
-                Description: document.querySelector("#desc").value,
-                Price: document.querySelector("#price").value
-        }
-        fetch("https://render-api-45zo.onrender.com/cars", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(obj)
+       
+ 
+  function myData() {
+      event.preventDefault();
+      let alldata={
+            type:document.querySelector("#manual").value,
+       brand:document.querySelector("#brand").value,
+       year:document.querySelector("#year").value,
+       kms:document.querySelector("#km").value,
+       Description:document.querySelector("#desc").value,
+       Price:document.querySelector("#price").value
+  }
+  fetch(`https://render-api-45zo.onrender.com/cars`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(alldata)
+    })
+        .then((res) => res.json())
+        .then((res) => {
+            console.log("data posted",res)
         })
-            .then(res => res.json())
-            .then((res) => console.log(res))
-            .catch((err)=>console.log(err))
-          
-    }
-
-   
-
+        .catch((err)=>console.log(err.message));
+  
+}
+     
 
 </script>

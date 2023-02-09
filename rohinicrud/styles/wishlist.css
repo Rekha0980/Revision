@@ -1,0 +1,106 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+nav {
+    background-color: teal;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+}
+
+nav a:hover {
+    font-weight: bold;
+}
+
+nav a:nth-child(3) {
+    border: 1px solid;
+    padding: 5px;
+    font-weight: bold;
+}
+
+#text-ad {
+    text-align: center;
+    font-size: 40px;
+    text-transform: uppercase;
+    font-family: monospace;
+    color: teal;
+    text-decoration: underline;
+}
+
+#wishdata{
+    width:97%;
+    margin: auto;
+    display: grid;;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: auto;
+    gap:25px;
+}
+
+.bigDiv{
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.image{
+   width:100%;
+   border-top-left-radius: 10px;
+   border-top-right-radius: 10px;
+}
+.boxdiv{
+    padding: 20px;
+}
+.d1,.d2{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+.d2{
+    margin-top: -35px;
+}
+.d3,.d4,.d5{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: space-between; 
+    
+}
+.d5{
+    margin-top: 15px;
+}
+.d31,.d32,.d33{
+    background-color:rgb(232, 232, 236);
+    padding: 8px 15px;
+    border-radius: 5px;
+   
+}
+@media all and (min-width:641px) and (max-width:1010px){
+    #wishdata{
+        width:90%;
+        margin: auto;
+        display: grid;;
+        grid-template-columns: repeat(2,1fr);
+        grid-template-rows: auto;
+        gap:20px;
+    }
+}
+
+@media all and (max-width:640px){
+    #wishdata{
+        width:90%;
+        margin: auto;
+        display: grid;;
+        grid-template-columns: repeat(1,1fr);
+        grid-template-rows: auto;
+        gap:20px;
+    }
+}
