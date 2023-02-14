@@ -10,6 +10,42 @@
         #cont div img {
             height: 50px;
         }
+        #Edit {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 25%;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    overflow: auto;
+    margin-top:250px;
+}
+
+.modal-content {
+    background-color:teal;
+    margin: auto;
+    border: 1px solid #888;
+    width: 50%;
+}
+#updateForm{
+    margin: 0;
+    margin:auto;
+    width: 25%;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    padding: 30px;
+    border-radius: 20px;
+}
+input[type="number"]{
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
     </style>
 </head>
 
@@ -41,6 +77,13 @@
             <option value="Suzuki">suzuki</option>
             <option value="Maruti Swift">hundai</option>
         </select>
+    </div>
+    <div id="carsdata"></div>
+    <div id="Edit" class="editRow">
+        <form id="updateForm" class="modal-content">
+            <input type="number" placeholder="update price" id="editPrice"/>
+            <input type="submit" value="Update" id="update"/>
+        </form>
     </div>
 
     <div id="cont"></div>
@@ -98,8 +141,14 @@ getCar()
                 remove(elem.id)
                 alert("Data is deleted successfully");
             })
+            let edit = document.createElement("button");
+        edit.textContent = "Edit";
+        edit.setAttribute("class", "edit");
+        edit.addEventListener("click",function(){
+            updateData(elem);
+        })
 
-            div.append(image, p1, p2, p3,p4,btn1, btn);
+            div.append(image, p1, p2, p3,p4,btn1, btn,edit);
 
             document.querySelector("#cont").append(div);
         });
@@ -177,6 +226,38 @@ function brandfilter(){
             });
     }
 }
+
+// --------------------------edit-----------------------------------------------------
+
+function updateData(el){
+    document.querySelector(".editRow").style.display = "block";
+    document.querySelector("#updateForm").addEventListener("submit",(event)=>{
+        event.preventDefault();
+        patchData(el)
+    })
+}
+
+function patchData(el){
+    let cost = document.getElementById("editPrice").value;
+    fetch(`https://render-api-45zo.onrender.com/cars/${el.id}`,{
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({...el, Price : cost})
+    })
+    .then((res)=>res.json())
+    .then((res)=> {
+        getCar();
+        document.querySelector(".editRow").style.display = "none";
+        alert("updated successfully"); 
+    })
+    .catch((err)=>console.log(err.message));
+}
+
+
+
+
 
 
 //     function add(el){

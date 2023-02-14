@@ -1,0 +1,88 @@
+.task{
+    width:20%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    border: 2px solid lightgray;
+    padding: 20px 50px;
+    border-radius: 5px;
+}
+.log{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.log button{
+    background-color: teal;
+    padding: 10px;
+    border: none;
+    color:white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap:15px;
+
+}
+.form input,button{
+    padding: 10px;
+    border-radius: 5px;
+    outline:none;
+    border:2px solid lightgray;
+}
+
+.form button{
+    background-color: black;
+    color:white;
+    cursor: pointer;
+}
+.delete{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.delete span:nth-child(2){
+    background-color: gray;
+    padding: 5px 5px 2px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+}
+.error{
+    color:red;
+}
+.perr{
+    color: red;
+    text-align: center;
+}
+@media all and (min-width: 641px) and (max-width:1100px){
+    .task{
+        width:30%;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        border: 2px solid lightgray;
+        padding: 20px 50px;
+        border-radius: 5px;
+    }
+}
+
+
+@media all and (max-width:640px){
+    .task{
+        width:70%;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        border: 2px solid lightgray;
+        padding: 20px 50px;
+        border-radius: 5px;
+    }
+}
