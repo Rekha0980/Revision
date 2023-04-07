@@ -31,3 +31,18 @@
 // for(let i=0;i<3;i++){
 //     setTimeout(()=>{console.log(i)},1)
 // }
+
+//question 5
+// const object1 = {
+//   a: 'somestring',
+//   b: 42
+// };
+
+// for (const [key, value] of Object.entries(object1)) {
+//   console.log(`${key}: ${value}`);
+// }
+
+
+
+
+
