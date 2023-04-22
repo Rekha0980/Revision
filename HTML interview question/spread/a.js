@@ -1,18 +1,20 @@
+
+
 // const numbers = [1, 2, 3];
 
 // console.log(...numbers);
 
 
 // function sum(...theArgs) {
-//     //console.log(theArgs)
+// //console.log(theArgs.length)
 //     let total = 0;
-//     for (const arg of theArgs) {
-//       total += arg;
+//     for (var i=0;i<theArgs.length;i++) {
+//       total += theArgs[i];
 //     }
 //     return total;
 //   }
   
-//   console.log(sum(1, 2, 3));
+//   console.log(sum(1, 2, 3,4));
 
   
 //   console.log(sum(1, 2, 3, 4))
@@ -33,13 +35,14 @@
 
 // var arr=["a","b","c","d","e"]
 // const func=([f,...r])=>r.reduce((a,c)=>a+c)+f
-// func(arr)
 
 
 
 // var arr=[1,2,3,4,5]
-// arr.map(a=>a*5)
-// console.log(arr)
+// let c=arr.map(a=>a*5)
+
+
+// console.log(c)
 
 
 // function getName(){
@@ -77,11 +80,11 @@
 // alpa()
 
 
-const obj={
-    a:5,
-    myfunc:function(){
-        console.log(this)
-    }
-}*''
+// const obj={
+//     a:5,
+//     myfunc:function(){
+//         console.log(this)
+//     }
+// }
 
-obj.myfunc()
+// obj.myfunc()
